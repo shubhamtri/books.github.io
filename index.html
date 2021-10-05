@@ -2,58 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" integrity="sha256-ECB9bbROLGm8wOoEbHcHRxlHgzGqYpDtNTgDTyDz0wg=" crossorigin="anonymous" />
-  <style>
-    .success,.error{
-      coloe:white;
-      padding:5px;
-      margin:5px 0 15px 0;
-    }
-    .succes{
-      background-color: blue;
-    }
-    .error{
-      background-color: orange;
-    }
-  </style>
-  <title>Book List</title>
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1 id="heading">Add Book</h1>
-    <form id="book-form">
-      <div>
-        <label for="title">Title</label>
-        <input type="text" id="title" class="u-full-width">
-      </div>
-      <div>
-        <label for="Author">Author</label>
-        <input type="text" id="author" class="u-full-width">
-      </div>
-      <div>
-        <label for="isbn">ID</label>
-        <input type="text" id="isbn" class="u-full-width">
-      </div>
-      <div>
-        <input type="submit" value="submit" class="u-full-width">
-      </div>
-      <!-- <hr> -->
 
-      <table class="u-full-width">
-        <thead>
-          <th>Title</th>
-          <th>Author</th>
-          <th>ISBN</th>
-          <th></th>
-        </thead>
-        <tbody id="book-list">
-  
-        </tbody>
-      </table>
-    </form>
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
   </div>
 
-  <script src="app.js"></script>
+  <audio data-key="65" src="sounds/clap.wav"></audio>
+  <audio data-key="83" src="sounds/hihat.wav"></audio>
+  <audio data-key="68" src="sounds/kick.wav"></audio>
+  <audio data-key="70" src="sounds/openhat.wav"></audio>
+  <audio data-key="71" src="sounds/boom.wav"></audio>
+  <audio data-key="72" src="sounds/ride.wav"></audio>
+  <audio data-key="74" src="sounds/snare.wav"></audio>
+  <audio data-key="75" src="sounds/tom.wav"></audio>
+  <audio data-key="76" src="sounds/tink.wav"></audio>
+
+<script>
+    function playSound(e) {
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)   
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        if(!audio)  return;//If a valid key is not entered then return
+        audio.currentTime = 0;//Resetting things
+        audio.play();
+        key.classList.add('playing');
+   }
+    window.addEventListener('keydown',playSound);
+    function removeTransition (e){
+        if(e.propertyName !== 'transform')  return;
+        this.classList.remove('playing');
+    }
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend',removeTransition));
+</script>
+
+
 </body>
 </html>
